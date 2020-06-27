@@ -173,7 +173,7 @@
 #define INPUT_PALM_MAX			1
 
 //Firmware update
-#define INTERNAL_FW_PATH		"tsp_melfas/mms449_carmen2.fw"
+#define INTERNAL_FW_PATH		"tsp_melfas/mms438_j7ve.fw"
 #define EXTERNAL_FW_PATH		"/sdcard/melfas.mfsb"
 #define FFU_FW_PATH	"ffu_tsp.bin"
 #define MMS_USE_AUTO_FW_UPDATE		1
