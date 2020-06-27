@@ -417,9 +417,6 @@ int mms_get_ready_status(struct mms_ts_info *info);
 int mms_get_fw_version(struct mms_ts_info *info, u8 *ver_buf);
 int mms_get_fw_version_u16(struct mms_ts_info *info, u16 *ver_buf_u16);
 int mms_disable_esd_alert(struct mms_ts_info *info);
-int mms_fw_update_from_kernel(struct mms_ts_info *info, bool force);
-int mms_fw_update_from_storage(struct mms_ts_info *info, bool force);
-int mms_fw_update_from_ffu(struct mms_ts_info *info, bool force);
 
 //mod
 int mms_power_control(struct mms_ts_info *info, int enable);
@@ -435,10 +432,6 @@ int mms_parse_devicetree(struct device *dev, struct mms_ts_info *info);
 #endif
 void mms_config_input(struct mms_ts_info *info);
 int mms_lowpower_mode(struct mms_ts_info *info, int on);
-
-//fw_update
-int mms_flash_fw(struct mms_ts_info *info, const u8 *fw_data, size_t fw_size,
-			bool force, bool section);
 
 //test
 #if MMS_USE_DEV_MODE

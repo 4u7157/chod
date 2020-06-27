@@ -96,63 +96,6 @@ static void cmd_set_result(struct mms_ts_info *info, char *buf, int len)
 }
 
 /**
- * Command : Update firmware
- */
-static void cmd_fw_update(void *device_data)
-{
-	struct mms_ts_info *info = (struct mms_ts_info *)device_data;
-	char buf[64] = { 0 };
-
-	int fw_location = info->cmd_param[0];
-
-	cmd_clear_result(info);
-
-	/* Factory cmd for firmware update
-	 * argument represent what is source of firmware like below.
-	 *
-	 * 0 : [BUILT_IN] Getting firmware which is for user.
-	 * 1 : [UMS] Getting firmware from sd card.
-	 * 2 : none
-	 * 3 : [FFU] Getting firmware from air.
-	 */
-
-	switch (fw_location) {
-	case 0:
-		if (mms_fw_update_from_kernel(info, true)) {
-			goto ERROR;
-		}
-		break;
-	case 1:
-		if (mms_fw_update_from_storage(info, true)) {
-			goto ERROR;
-		}
-		break;
-	case 3 :
-		if (mms_fw_update_from_ffu(info, true)) {
-			goto ERROR;
-		}
-		break;
-	default:
-		goto ERROR;
-		break;
-	}
-
-	sprintf(buf, "%s", "OK");
-	info->cmd_state = CMD_STATUS_OK;
-	goto EXIT;
-
-ERROR:
-	sprintf(buf, "%s", "NG");
-	info->cmd_state = CMD_STATUS_FAIL;
-	goto EXIT;
-
-EXIT:
-	cmd_set_result(info, buf, strnlen(buf, sizeof(buf)));
-	tsp_debug_dbg(true, &info->client->dev, "%s - cmd[%s] state[%d]\n",
-		__func__, buf, info->cmd_state);
-}
-
-/**
  * Command : Get firmware version from MFSB file
  */
 static void cmd_get_fw_ver_bin(void *device_data)
@@ -1390,7 +1333,6 @@ struct mms_cmd {
  * List of command functions
  */
 static struct mms_cmd mms_commands[] = {
-	{MMS_CMD("fw_update", cmd_fw_update),},
 	{MMS_CMD("get_fw_ver_bin", cmd_get_fw_ver_bin),},
 	{MMS_CMD("get_fw_ver_ic", cmd_get_fw_ver_ic),},
 	{MMS_CMD("get_chip_vendor", cmd_get_chip_vendor),},
